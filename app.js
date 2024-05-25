@@ -5,6 +5,7 @@ const app = express();
 // logger
 const logger = require('morgan');
 app.use(logger("tiny"));
+require('./models/DataBase.js').ConnectDatabase();
 
 // routes
 app.use('/',require('./routes/indexRouter.js'));
