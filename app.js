@@ -2,10 +2,16 @@ require('dotenv').config({path:'./.env'})
 const express = require('express');
 const app = express();
 
+// database configuration
+require('./models/DataBase.js').ConnectDatabase();
+
 // logger
 const logger = require('morgan');
 app.use(logger("tiny"));
-require('./models/DataBase.js').ConnectDatabase();
+
+// Body parser
+app.use(express.json());
+app.use(express.urlencoded({extended:false}));
 
 // routes
 app.use('/',require('./routes/indexRouter.js'));
