@@ -1,6 +1,7 @@
 require('dotenv').config({path:'./.env'})
 const express = require('express');
 const app = express();
+const expressSession = require('express-session');
 
 // database configuration
 require('./models/DataBase.js').ConnectDatabase();
@@ -12,6 +13,13 @@ app.use(logger("tiny"));
 // Body parser
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
+
+// session
+app.use(expressSession({
+    resave:false,
+    saveUninitialized:false,
+    secret:process.env.SESSION_SECRET,
+}))
 
 // routes
 app.use('/',require('./routes/indexRouter.js'));
