@@ -2,6 +2,7 @@ require('dotenv').config({path:'./.env'})
 const express = require('express');
 const app = express();
 const expressSession = require('express-session');
+const cookieParser = require('cookie-parser');
 
 // database configuration
 require('./models/DataBase.js').ConnectDatabase();
@@ -20,6 +21,7 @@ app.use(expressSession({
     saveUninitialized:false,
     secret:process.env.SESSION_SECRET,
 }))
+app.use(cookieParser());
 
 // routes
 app.use('/',require('./routes/indexRouter.js'));

@@ -1,6 +1,7 @@
 const { CatchAsyncError } = require("../middlewares/CatchAsyncError")
 const studentModel = require('../models/StudendModel.js')
 const ErrorHandler = require('../utils/ErrorHandler.js');
+const { SendToken } = require("../utils/SendToke.js");
 
 
 exports.homepage = CatchAsyncError(async (req, res, next) => {
@@ -9,7 +10,7 @@ exports.homepage = CatchAsyncError(async (req, res, next) => {
 
 exports.studentsignup = CatchAsyncError(async (req, res, next) => {
     const student = await new studentModel(req.body).save();
-    res.json(student);
+    SendToken(student,201,res);
 })
 
 exports.studentsignin = CatchAsyncError(async (req, res, next) => {
@@ -21,9 +22,15 @@ exports.studentsignin = CatchAsyncError(async (req, res, next) => {
     if (!isMatch) {
         return next(new ErrorHandler("Wrong Password", 401))
     }
-    res.json(student);
+    SendToken(student,200,res);
 })
 
 exports.studentsignout = CatchAsyncError(async (req, res, next) => {
-    res.json(req.body);
+    res.clearCookie('token');
+    res.json({message : 'succefully signed out'})
+})
+
+exports.CurrentStudent = CatchAsyncError(async (req, res, next) => {
+    const student = await studentModel.findById(req.id).exec();
+    res.json(student);
 })
