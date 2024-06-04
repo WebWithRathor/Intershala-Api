@@ -1,53 +1,27 @@
 const nodemailer = require("nodemailer");
-const { google } = require("googleapis");
-const OAuth2 = google.auth.OAuth2;
+const ErrorHandler = require("./ErrorHandler");
 
-const createTransporter = async () => {
-    const oauth2Client = new OAuth2(
-        process.env.GOOGLE_CLIENT_ID,
-        process.env.GOOGLE_CLIENT_SECRET,
-        "https://developers.google.com/oauthplayground"
-    );
-
-    oauth2Client.setCredentials({
-        refresh_token: process.env.REFRESH_TOKEN
-    });
-
-    const accessToken = await new Promise((resolve, reject) => {
-        oauth2Client.getAccessToken((err, token) => {
-            if (err) {
-                reject();
-            }
-            resolve(token);
-        });
-    });
-
+exports.sendMail = (req,res,next,url)=>{
     const transporter = nodemailer.createTransport({
-        service: "gmail",
+        service: 'gmail',
+        host:'smtp.gmail.com',
+        port: 587,
         auth: {
-            type: "OAuth2",
-            user: process.env.EMAIL,
-            accessToken,
-            clientId: process.env.GOOGLE_CLIENT_ID,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-            refreshToken: process.env.REFRESH_TOKEN
+            user: process.env.MY_EMAIL,
+            pass: process.env.APP_PASSWORD
         }
     });
+    
+    const mailOptions = {
+        from: process.env.MY_EMAIL,
+        to: req.body.email,
+        subject: 'Requested for Forget-Password Link ',
+        html:`
+        <h1>Please click on the link to reset your password</h1>
+        <a href="${url}" style="color:white; text-decoration:none; display:inline-block; border-radius:10px; font-weight:500; padding:1vw 1vw; background:royalblue;">Reset password</a>`
+    }
 
-    return transporter;
-};
-module.exports.sendEmail = async (emailOptions) => {
-    let emailTransporter = await createTransporter();
-    await emailTransporter.sendMail(emailOptions);
-};
-
-
-
-
-
-
-
-
-
-
-
+    transporter.sendMail(mailOptions,(err,info)=>{
+        if(err) return next( new ErrorHandler("Email not sent",500));
+    });
+}
