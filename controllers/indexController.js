@@ -3,6 +3,8 @@ const studentModel = require('../models/StudendModel.js')
 const ErrorHandler = require('../utils/ErrorHandler.js');
 const { sendMail } = require("../utils/SendMail.js");
 const { SendToken } = require("../utils/SendToke.js");
+const InitImageKit = require("../utils/ImageKit.js").InitImageKit();
+const path = require('path')
 
 
 exports.homepage = CatchAsyncError(async (req, res, next) => {
@@ -63,4 +65,28 @@ exports.ChangePassword = CatchAsyncError(async (req, res, next) => {
     student.password = req.body.password;
     await student.save()
     res.json({ message: "Successfully Change password" });
+})
+
+exports.StudentUpdate = CatchAsyncError(async (req, res, next) => {
+    const student = await studentModel.findOneAndUpdate({ _id: req.id },req.body).exec();
+    res.json({ message: "Successfully Details updated" ,student});
+})
+
+exports.StudentAvatar = CatchAsyncError(async (req, res, next) => {
+    const student = await studentModel.findOne({ _id: req.id }).exec();
+    if(!req.files){
+        return next(new ErrorHandler("Please upload a file",400))
+    }
+    const file = req.files.avatar;
+    if(student.avatar){
+        await InitImageKit.deleteFile(student.avatar.fileId);
+    }
+    const modifiedName = `internshala-${Date.now()}${path.extname(file.name)}`
+    const {fileId,url} = await InitImageKit.upload({
+        file:file.data,
+        fileName:modifiedName
+    });
+    student.avatar = {fileId,url};
+    student.save(); 
+    res.json({student});
 })

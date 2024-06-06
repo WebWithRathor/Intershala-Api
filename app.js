@@ -23,6 +23,10 @@ app.use(expressSession({
 }))
 app.use(cookieParser());
 
+// file uploads
+const fileUploads = require('express-fileupload');
+app.use(fileUploads());
+
 // routes
 app.use('/',require('./routes/indexRouter.js'));
 
