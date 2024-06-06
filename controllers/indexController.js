@@ -54,7 +54,7 @@ exports.ResetPassword = CatchAsyncError(async (req, res, next) => {
         student.passwordresettoken = "0";
         student.password = req.body.password;
     } else {
-       return next(new ErrorHandler("Invalid password reset link", 404))
+        return next(new ErrorHandler("Invalid password reset link", 404))
     }
     await student.save()
     res.json({ message: "Successfully reset password" });
@@ -68,25 +68,25 @@ exports.ChangePassword = CatchAsyncError(async (req, res, next) => {
 })
 
 exports.StudentUpdate = CatchAsyncError(async (req, res, next) => {
-    const student = await studentModel.findOneAndUpdate({ _id: req.id },req.body).exec();
-    res.json({ message: "Successfully Details updated" ,student});
+    const student = await studentModel.findOneAndUpdate({ _id: req.id }, req.body, { runValidators: true, context: 'query' }).exec();
+    res.json({ message: "Successfully Details updated", student });
 })
 
 exports.StudentAvatar = CatchAsyncError(async (req, res, next) => {
     const student = await studentModel.findOne({ _id: req.id }).exec();
-    if(!req.files){
-        return next(new ErrorHandler("Please upload a file",400))
+    if (!req.files) {
+        return next(new ErrorHandler("Please upload a file", 400))
     }
     const file = req.files.avatar;
-    if(student.avatar){
+    if (student.avatar) {
         await InitImageKit.deleteFile(student.avatar.fileId);
     }
     const modifiedName = `internshala-${Date.now()}${path.extname(file.name)}`
-    const {fileId,url} = await InitImageKit.upload({
-        file:file.data,
-        fileName:modifiedName
+    const { fileId, url } = await InitImageKit.upload({
+        file: file.data,
+        fileName: modifiedName
     });
-    student.avatar = {fileId,url};
-    student.save(); 
-    res.json({student});
+    student.avatar = { fileId, url };
+    student.save();
+    res.json({ student });
 })

@@ -50,6 +50,16 @@ const studentSchema = new mongoose.Schema({
     passwordresettoken: {
         type: String,
         default: "0"
+    },
+    resume:{
+        education:[],
+        experience:[],
+        skills:[],
+        responsibility:[],
+        courses:[],
+        projects:[],
+        workSamples:[],
+        accomplishment:[],
     }
 }, { timestamps: true });
 

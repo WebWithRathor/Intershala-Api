@@ -30,6 +30,8 @@ app.use(fileUploads());
 // routes
 app.use('/',require('./routes/indexRouter.js'));
 
+app.use('/resume',require('./routes/resumeRouter.js'));
+
 // errors
 const ErrorHandler = require('./utils/ErrorHandler.js');
 const { Generatederror } = require('./middlewares/GeneratedErrors.js');
