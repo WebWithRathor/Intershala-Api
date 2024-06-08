@@ -163,5 +163,27 @@ exports.deleteWorkSamples = CatchAsyncError(async (req, res, next) => {
     res.json(student.resume)
 });
 
+exports.addAccomplishment = CatchAsyncError(async (req, res, next) => {
+    const student = await studentModel.findById(req.id).exec()
+    student.resume.accomplishment.push({...req.body,id:uuidV4()});
+    await student.save()
+    res.json(student.resume)
+});
+
+exports.editAccomplishment = CatchAsyncError(async (req, res, next) => {
+    const student = await studentModel.findById(req.id).exec()
+    const accompIndex = student.resume.accomplishment.findIndex(accomp => accomp.id === req.params.accompid)
+    student.resume.accomplishment[accompIndex] = {...student.resume.accomplishment[accompIndex],...req.body};
+    await student.save()
+    res.json(student.resume)
+});
+
+exports.deleteAccomplishment = CatchAsyncError(async (req, res, next) => {
+    const student = await studentModel.findById(req.id).exec()
+    student.resume.accomplishment = student.resume.accomplishment.filter(e=>e.id !== req.params.accompid);    
+    await student.save()
+    res.json(student.resume)
+});
+
 
 
