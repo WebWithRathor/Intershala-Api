@@ -32,6 +32,8 @@ app.use('/',require('./routes/indexRouter.js'));
 
 app.use('/resume',require('./routes/resumeRouter.js'));
 
+app.use('/employe',require('./routes/employeRouter.js'));
+
 // errors
 const ErrorHandler = require('./utils/ErrorHandler.js');
 const { Generatederror } = require('./middlewares/GeneratedErrors.js');
