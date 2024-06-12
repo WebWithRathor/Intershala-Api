@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { isAuthenticated } = require('../middlewares/Auth');
-const {resume,addEducation,editEducation, deleteEducation, addExperience, editExperience, deleteExperience, addSkills, editSkills, deleteSkills, addResponsibility, editResponsibility, deleteResponsibility, addCourses, editCourses, deleteCourses, addAccomplishment, editAccomplishment, deleteAccomplishment} = require('../controllers/resumeController.js')
+const {resume,addEducation,editEducation, deleteEducation, addExperience, editExperience, deleteExperience, addSkills, editSkills, deleteSkills, addResponsibility, editResponsibility, deleteResponsibility, addCourses, editCourses, deleteCourses, addAccomplishment, editAccomplishment, deleteAccomplishment, addProjects, editProjects, deleteProjects, addWorkSamples, editWorkSamples, deleteWorkSamples} = require('../controllers/resumeController.js')
 
 router.get('/', isAuthenticated, resume);
 
