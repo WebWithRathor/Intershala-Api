@@ -2,7 +2,7 @@ const { CatchAsyncError } = require("../middlewares/CatchAsyncError")
 const studentModel = require('../models/StudendModel.js')
 const ErrorHandler = require('../utils/ErrorHandler.js');
 const { sendMail } = require("../utils/SendMail.js");
-const { SendToken } = require("../utils/SendToke.js");
+const { SendToken } = require("../utils/SendToken.js");
 const InitImageKit = require("../utils/ImageKit.js").InitImageKit();
 const path = require('path')
 
