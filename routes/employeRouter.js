@@ -21,6 +21,6 @@ router.post('/changepassword', isAuthenticated, ChangePassword);
 
 router.post('/update', isAuthenticated, employeUpdate);
 
-router.post('/avatar', isAuthenticated, employeAvatar);
+router.post('/OrganizationLogo', isAuthenticated, employeAvatar);
 
 module.exports = router;
