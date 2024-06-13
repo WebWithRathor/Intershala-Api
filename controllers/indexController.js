@@ -29,6 +29,10 @@ exports.studentsignin = CatchAsyncError(async (req, res, next) => {
 })
 
 exports.studentsignout = CatchAsyncError(async (req, res, next) => {
+    const student = await studentModel.findOne({ _id:req.id }).exec();
+    if (!student) {
+        return next(new ErrorHandler("The Student with this email doesn't exsists", 401))
+    }
     res.clearCookie('token');
     res.json({ message: 'succefully signed out' })
 })

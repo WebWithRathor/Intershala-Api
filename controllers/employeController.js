@@ -29,6 +29,10 @@ exports.employesignin = CatchAsyncError(async (req, res, next) => {
 })
 
 exports.employesignout = CatchAsyncError(async (req, res, next) => {
+    const employe = await employeModel.findOne({ _id:req.id }).exec()
+    if (!employe) {
+        return next(new ErrorHandler("The employe with this email doesn't exsists", 401))
+    }
     res.clearCookie('token');
     res.json({ message: 'succefully signed out' })
 })
