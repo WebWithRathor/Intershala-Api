@@ -60,7 +60,15 @@ const studentSchema = new mongoose.Schema({
         projects:[],
         workSamples:[],
         accomplishment:[],
-    }
+    }, 
+    internships: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'internship'
+    }],
+    jobs: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'job'
+    }],
 }, { timestamps: true });
 
 studentSchema.pre("save", function () {
@@ -81,4 +89,4 @@ studentSchema.methods.generatejwt = function () {
     });
 }
 
-module.exports = mongoose.model('Student', studentSchema);
+module.exports = mongoose.model('student', studentSchema);

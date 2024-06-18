@@ -1,6 +1,14 @@
 const mongoose = require('mongoose');
 
 const jobSchema = new mongoose.Schema({
+    employe:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'employe',
+    },
+    student:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'student',
+    }],
     title: String,
     skill: String,
     jobtype:{
