@@ -1,5 +1,7 @@
 const { CatchAsyncError } = require("../middlewares/CatchAsyncError")
-const studentModel = require('../models/StudentModel.js')
+const studentModel = require('../models/StudentModel.js');
+const internshipModel = require("../models/internshipModel.js");
+const jobsModel = require("../models/jobsModel.js");
 const ErrorHandler = require('../utils/ErrorHandler.js');
 const { sendMail } = require("../utils/SendMail.js");
 const { SendToken } = require("../utils/SendToken.js");
@@ -93,4 +95,28 @@ exports.StudentAvatar = CatchAsyncError(async (req, res, next) => {
     student.avatar = { fileId, url };
     student.save();
     res.json({ student });
+})
+
+// -----------------apply job --------------------
+exports.studentApplyJob = CatchAsyncError(async (req, res, next) => {
+    const student = await studentModel.findById(req.id ).exec();
+    if(!student) return new ErrorHandler("No student found with this email address",404);
+    const job = await jobsModel.findById(req.params.jobid);
+    student.jobs.push(job._id);
+    job.student.push(student._id);
+    await student.save();
+    await job.save();
+    res.json({ message: "Successfully Applied for job", student });
+})
+
+// -----------------apply internship --------------------
+exports.studentApplyInternship = CatchAsyncError(async (req, res, next) => {
+    const student = await studentModel.findById(req.id ).exec();
+    if(!student) return new ErrorHandler("No student found with this email address",404);
+    const internship = await internshipModel.findById(req.params.internshipid);
+    student.internships.push(internship._id);
+    internship.student.push(student._id);
+    await student.save();
+    await internship.save();
+    res.json({ message: "Successfully Applied for internship", student });
 })
