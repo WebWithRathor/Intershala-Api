@@ -1,5 +1,6 @@
 const { CatchAsyncError } = require("../middlewares/CatchAsyncError")
-const employeModel = require('../models/employeModel.js')
+const employeModel = require('../models/employeModel.js');
+const intershipModel = require("../models/intershipModel.js");
 const ErrorHandler = require('../utils/ErrorHandler.js');
 const { sendMail } = require("../utils/SendMail.js");
 const { SendToken } = require("../utils/SendToken.js");
@@ -93,4 +94,14 @@ exports.employeAvatar = CatchAsyncError(async (req, res, next) => {
     employe.avatar = { fileId, url };
     employe.save();
     res.json({ employe });
+})
+
+// ---------------- internship-------------------
+exports.intershipCreate = CatchAsyncError(async (req, res, next) => {
+    const employe = await employeModel.findById(req.id).exec();
+    if(!employe){
+        return next(new ErrorHandler("The employe with this email doesn't exsists", 401))
+    }
+    const intership = await new intershipModel(req.body).save();
+    res.status(201).json(intership)
 })
