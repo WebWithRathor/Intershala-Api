@@ -1,5 +1,5 @@
 const { CatchAsyncError } = require("../middlewares/CatchAsyncError")
-const studentModel = require('../models/StudendModel.js')
+const studentModel = require('../models/StudentModel.js')
 const ErrorHandler = require('../utils/ErrorHandler.js');
 const { sendMail } = require("../utils/SendMail.js");
 const { SendToken } = require("../utils/SendToken.js");

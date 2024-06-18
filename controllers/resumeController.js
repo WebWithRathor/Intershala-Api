@@ -1,6 +1,5 @@
 const { CatchAsyncError } = require("../middlewares/CatchAsyncError")
-const studentModel = require('../models/StudendModel.js')
-const ErrorHandler = require('../utils/ErrorHandler.js');
+const studentModel = require('../models/StudentModel.js')
 const {v4 : uuidV4} =require('uuid')
 
 

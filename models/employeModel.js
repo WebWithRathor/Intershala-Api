@@ -56,9 +56,9 @@ const employeSchema = new mongoose.Schema({
         type: String,
         default: "0"
     },
-    interships: [{
+    internships: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'intership'
+        ref: 'internship'
     }],
     jobs: [{
         type: mongoose.Schema.Types.ObjectId,

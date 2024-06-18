@@ -1,6 +1,7 @@
 const { CatchAsyncError } = require("../middlewares/CatchAsyncError")
 const employeModel = require('../models/employeModel.js');
-const intershipModel = require("../models/intershipModel.js");
+const internshipModel = require("../models/internshipModel.js");
+const jobModel = require("../models/jobsModel.js");
 const ErrorHandler = require('../utils/ErrorHandler.js');
 const { sendMail } = require("../utils/SendMail.js");
 const { SendToken } = require("../utils/SendToken.js");
@@ -97,11 +98,60 @@ exports.employeAvatar = CatchAsyncError(async (req, res, next) => {
 })
 
 // ---------------- internship-------------------
-exports.intershipCreate = CatchAsyncError(async (req, res, next) => {
+exports.internshipCreate = CatchAsyncError(async (req, res, next) => {
     const employe = await employeModel.findById(req.id).exec();
     if(!employe){
         return next(new ErrorHandler("The employe with this email doesn't exsists", 401))
     }
-    const intership = await new intershipModel(req.body).save();
-    res.status(201).json(intership)
+    const internship = await new internshipModel(req.body);
+    internship.employe = employe._id;
+    employe.internships.push(internship);
+    internship.save();
+    employe.save();
+    res.status(201).json(internship)
+})
+
+exports.readSingleInternship = CatchAsyncError(async (req, res, next) => {
+    const internship = await internshipModel.findById(req.params.id).exec();
+    res.status(200).json(internship)
+})
+
+exports.readInternship = CatchAsyncError(async (req, res, next) => {
+    const employe = await employeModel.findById(req.id).exec();
+    if(!employe){
+        return next(new ErrorHandler("The employe with this email doesn't exsists", 401))
+    }
+    const internships = await internshipModel.find({ employe: employe._id }).exec();
+    res.status(200).json(internships)
+})
+
+
+
+// ---------------- job-------------------
+
+exports.jobCreate = CatchAsyncError(async (req, res, next) => {
+    const employe = await employeModel.findById(req.id).exec();
+    if(!employe){
+        return next(new ErrorHandler("The employe with this email doesn't exsists", 401))
+    }
+    const job = await new jobModel(req.body);
+    job.employe = employe._id;
+    employe.jobs.push(job);
+    job.save();
+    employe.save();
+    res.status(201).json(job)
+})
+
+exports.readSinglejob = CatchAsyncError(async (req, res, next) => {
+    const job = await jobModel.findById(req.params.id).exec();
+    res.status(200).json(job)
+})
+
+exports.readjob = CatchAsyncError(async (req, res, next) => {
+    const employe = await employeModel.findById(req.id).exec();
+    if(!employe){
+        return next(new ErrorHandler("The employe with this email doesn't exsists", 401))
+    }
+    const jobs = await jobModel.find({ employe: employe._id }).exec();
+    res.status(200).json(jobs)
 })
