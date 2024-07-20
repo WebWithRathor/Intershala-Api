@@ -79,13 +79,14 @@ exports.StudentUpdate = CatchAsyncError(async (req, res, next) => {
 })
 
 exports.StudentAvatar = CatchAsyncError(async (req, res, next) => {
+
     const student = await studentModel.findOne({ _id: req.id }).exec();
     if (!req.files) {
         return next(new ErrorHandler("Please upload a file", 400))
     }
     const file = req.files.avatar;
-    if (student.avatar) {
-        await InitImageKit.deleteFile(student.avatar.fileId);
+    if (student.avatar && !student.avatar.fileid === 'default_avatar_y0j12o') {
+        await InitImageKit.deleteFile(student.avatar.fileid);
     }
     const modifiedName = `internshala-${Date.now()}${path.extname(file.name)}`
     const { fileId, url } = await InitImageKit.upload({
