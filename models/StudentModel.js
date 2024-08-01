@@ -15,7 +15,7 @@ const studentSchema = new mongoose.Schema({
         maxLength: [15, "Lastname should not exceed 15 characters"],
         minLength: [3, "Lastname should be atleast of 3 characters"]
     },
-    gender: { type: String,required:[true,"Gender is required"], enum: ["Male", "Female", "Others"] },
+    gender: { type: String,enum: ["Male", "Female", "Others"] },
     avatar: {
         type: Object,
         default: {
@@ -31,7 +31,6 @@ const studentSchema = new mongoose.Schema({
     },
     city: {
         type: String,
-        required: [true, "city name is required"],
         maxLength: [20, "city name should not exceed 20 characters"],
         minLength: [3, "city name should be atleast of 3 characters"]
     },

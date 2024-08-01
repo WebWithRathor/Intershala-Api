@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const ErrorHandler = require('../utils/ErrorHandler');
+const ErrorHandler = require('../utils/ErrorHandler').default;
 
 exports.isAuthenticated = (req,res,next)=>{
     const {token} = req.cookies;
