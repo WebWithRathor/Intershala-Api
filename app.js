@@ -35,7 +35,7 @@ app.use('/resume',require('./routes/resumeRouter.js'));
 app.use('/employe',require('./routes/employeRouter.js'));
 
 // errors
-const ErrorHandler = require('./utils/ErrorHandler.js').default;
+const ErrorHandler = require('./utils/ErrorHandler.js');
 const { Generatederror } = require('./middlewares/GeneratedErrors.js');
 app.all('*',(req,res,next)=>{
     next(new ErrorHandler(`Requested ${req.url} Not Found`,404))

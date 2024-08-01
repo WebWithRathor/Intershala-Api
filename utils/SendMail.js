@@ -1,5 +1,5 @@
 const nodemailer = require("nodemailer");
-const ErrorHandler = require("./ErrorHandler").default;
+const ErrorHandler = require("./ErrorHandler");
 
 exports.sendMail = (req,res,next,url)=>{
     const transporter = nodemailer.createTransport({
