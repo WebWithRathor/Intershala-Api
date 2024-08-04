@@ -5,7 +5,7 @@ const { isAuthenticated } = require('../middlewares/Auth');
 
 router.get('/', isAuthenticated, homepage);
 
-router.post('/employe', isAuthenticated,Currentemploye);
+router.post('/current', isAuthenticated,Currentemploye);
 
 router.post('/signup', employesignup);
 
