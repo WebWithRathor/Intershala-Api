@@ -31,7 +31,7 @@ exports.studentsignin = CatchAsyncError(async (req, res, next) => {
 })
 
 exports.studentsignout = CatchAsyncError(async (req, res, next) => {
-    const student = await studentModel.findOne({ _id:req.id }).exec();
+    const student = await studentModel.findOne({ _id: req.id }).exec();
     if (!student) {
         return next(new ErrorHandler("The Student with this email doesn't exsists", 401))
     }
@@ -67,8 +67,8 @@ exports.ResetPassword = CatchAsyncError(async (req, res, next) => {
 })
 
 exports.ChangePassword = CatchAsyncError(async (req, res, next) => {
-    const student = await studentModel.findOne({ _id: req.id }).exec();
-    if(student.password === req.body.oldPassword) {
+    const student = await studentModel.findOne({ _id: req.id }).select('+password').exec();
+    if(!student.comparePassword(req.body.oldPassword)){
         return next(new ErrorHandler("Old password does not match", 400));
     }
     student.password = req.body.newPassword;
@@ -84,7 +84,7 @@ exports.StudentUpdate = CatchAsyncError(async (req, res, next) => {
 exports.StudentAvatar = CatchAsyncError(async (req, res, next) => {
 
     const student = await studentModel.findOne({ _id: req.id }).exec();
-    
+
     if (!req.files) {
         return next(new ErrorHandler("Please upload a file", 400))
     }
@@ -104,8 +104,8 @@ exports.StudentAvatar = CatchAsyncError(async (req, res, next) => {
 
 // -----------------apply job --------------------
 exports.studentApplyJob = CatchAsyncError(async (req, res, next) => {
-    const student = await studentModel.findById(req.id ).exec();
-    if(!student) return new ErrorHandler("No student found with this email address",404);
+    const student = await studentModel.findById(req.id).exec();
+    if (!student) return new ErrorHandler("No student found with this email address", 404);
     const job = await jobsModel.findById(req.params.jobid);
     student.jobs.push(job._id);
     job.student.push(student._id);
@@ -116,8 +116,8 @@ exports.studentApplyJob = CatchAsyncError(async (req, res, next) => {
 
 // -----------------apply internship --------------------
 exports.studentApplyInternship = CatchAsyncError(async (req, res, next) => {
-    const student = await studentModel.findById(req.id ).exec();
-    if(!student) return new ErrorHandler("No student found with this email address",404);
+    const student = await studentModel.findById(req.id).exec();
+    if (!student) return new ErrorHandler("No student found with this email address", 404);
     const internship = await internshipModel.findById(req.params.internshipid);
     student.internships.push(internship._id);
     internship.student.push(student._id);
