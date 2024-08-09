@@ -75,6 +75,13 @@ exports.ChangePassword = CatchAsyncError(async (req, res, next) => {
 
 exports.employeUpdate = CatchAsyncError(async (req, res, next) => {
     const employe = await employeModel.findOneAndUpdate({ _id: req.id }, req.body, { runValidators: true, context: 'query' }).exec();
+    const dets = ['organizationname','city',].filter(e=> !employe[e]);
+    if(dets.length === 0){
+        employe.completeDetails = true ;
+        employe.save();
+    }else{
+        return next(new ErrorHandler('Please Complete the details',402));
+    }
     res.json({ message: "Successfully Details updated", employe });
 })
 
