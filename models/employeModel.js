@@ -17,10 +17,10 @@ const employeSchema = new mongoose.Schema({
     },
     organizationname: {
         type: String,
-        required: [true, "organizationname is required"],
         maxLength: [15, "organizationname should not exceed 15 characters"],
         minLength: [3, "organizationname should be atleast of 3 characters"]
     },
+
     organizationLogo: {
         type: Object,
         default: {
@@ -36,7 +36,6 @@ const employeSchema = new mongoose.Schema({
     },
     city: {
         type: String,
-        required: [true, "city name is required"],
         maxLength: [20, "city name should not exceed 20 characters"],
         minLength: [3, "city name should be atleast of 3 characters"]
     },
@@ -64,6 +63,10 @@ const employeSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'job'
     }],
+    completeDetails:{
+        type: Boolean,
+        default: false
+    }
 }, { timestamps: true });
 
 employeSchema.pre("save", function () {
