@@ -68,7 +68,10 @@ exports.ResetPassword = CatchAsyncError(async (req, res, next) => {
 
 exports.ChangePassword = CatchAsyncError(async (req, res, next) => {
     const student = await studentModel.findOne({ _id: req.id }).exec();
-    student.password = req.body.password;
+    if(student.password === req.body.oldPassword) {
+        return next(new ErrorHandler("Old password does not match", 400));
+    }
+    student.password = req.body.newPassword;
     await student.save()
     res.json({ message: "Successfully Change password" });
 })
@@ -81,6 +84,7 @@ exports.StudentUpdate = CatchAsyncError(async (req, res, next) => {
 exports.StudentAvatar = CatchAsyncError(async (req, res, next) => {
 
     const student = await studentModel.findOne({ _id: req.id }).exec();
+    
     if (!req.files) {
         return next(new ErrorHandler("Please upload a file", 400))
     }
