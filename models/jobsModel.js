@@ -18,7 +18,7 @@ const jobSchema = new mongoose.Schema({
     description:String,
     openings: Number,
     salary: Number,
-    prefrences:String,
+    preferences:String,
     perks:String,
     assessments:String,
 }, { timestamps: true });
