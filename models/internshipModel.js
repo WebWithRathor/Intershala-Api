@@ -15,7 +15,7 @@ const internshipSchema = new mongoose.Schema({
         type: String,
         enum: ['In office', 'Remote']
     },
-    openigs:Number,
+    openings:Number,
     from:String,
     to:String,
     duration:String,

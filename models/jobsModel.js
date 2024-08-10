@@ -15,7 +15,7 @@ const jobSchema = new mongoose.Schema({
         type: String,
         enum: ['In office', 'Remote']
     },
-    descripton:String,
+    description:String,
     openings: Number,
     salary: Number,
     prefrences:String,
