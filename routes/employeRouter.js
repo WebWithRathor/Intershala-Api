@@ -29,7 +29,6 @@ router.post('/internship/create',isAuthenticated , internshipCreate);
 
 router.post('/internship/read',isAuthenticated , readInternship);
 
-router.post('/internship/read/:id',isAuthenticated , readSingleInternship);
 
 // ----------------------job --------------------
 
@@ -37,7 +36,6 @@ router.post('/job/create',isAuthenticated , jobCreate);
 
 router.post('/job/read',isAuthenticated , readjob);
 
-router.post('/job/read/:id',isAuthenticated , readSinglejob);
 
 
 module.exports = router;

@@ -125,3 +125,28 @@ exports.studentApplyInternship = CatchAsyncError(async (req, res, next) => {
     await internship.save();
     res.json({ message: "Successfully Applied for internship", student });
 })
+
+// -----internship 
+
+exports.readSingleInternship = CatchAsyncError(async (req, res, next) => {
+    const internship = await internshipModel.findById(req.params.id).exec();
+    res.status(200).json(internship)
+})
+
+exports.readAllInternship = CatchAsyncError(async (req, res, next) => {
+    const internships = await internshipModel.find().exec();
+    res.status(200).json(internships)
+})
+
+
+//  job
+
+exports.readSingleJob = CatchAsyncError(async (req, res, next) => {
+    const job = await jobsModel.findById(req.params.id).exec();
+    res.status(200).json(job)
+})
+
+exports.readAllJob = CatchAsyncError(async (req, res, next) => {
+    const jobs = await jobsModel.find().exec();
+    res.status(200).json(jobs)
+})

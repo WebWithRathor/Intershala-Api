@@ -118,10 +118,7 @@ exports.internshipCreate = CatchAsyncError(async (req, res, next) => {
     res.status(201).json(internship)
 })
 
-exports.readSingleInternship = CatchAsyncError(async (req, res, next) => {
-    const internship = await internshipModel.findById(req.params.id).exec();
-    res.status(200).json(internship)
-})
+
 
 exports.readInternship = CatchAsyncError(async (req, res, next) => {
     const employe = await employeModel.findById(req.id).exec();
@@ -149,10 +146,7 @@ exports.jobCreate = CatchAsyncError(async (req, res, next) => {
     res.status(201).json(job)
 })
 
-exports.readSinglejob = CatchAsyncError(async (req, res, next) => {
-    const job = await jobModel.findById(req.params.id).exec();
-    res.status(200).json(job)
-})
+
 
 exports.readjob = CatchAsyncError(async (req, res, next) => {
     const employe = await employeModel.findById(req.id).exec();
