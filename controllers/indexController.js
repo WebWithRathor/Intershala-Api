@@ -107,6 +107,10 @@ exports.studentApplyJob = CatchAsyncError(async (req, res, next) => {
     const student = await studentModel.findById(req.id).exec();
     if (!student) return new ErrorHandler("No student found with this email address", 404);
     const job = await jobsModel.findById(req.params.jobid);
+    const alreadyApplied = student.jobs.includes(job._id);
+    if (alreadyApplied) {
+        return next(new ErrorHandler("You have already applied for this internship", 400));
+    }
     student.jobs.push(job._id);
     job.student.push(student._id);
     await student.save();
@@ -117,8 +121,12 @@ exports.studentApplyJob = CatchAsyncError(async (req, res, next) => {
 // -----------------apply internship --------------------
 exports.studentApplyInternship = CatchAsyncError(async (req, res, next) => {
     const student = await studentModel.findById(req.id).exec();
-    if (!student) return new ErrorHandler("No student found with this email address", 404);
+    if (!student) return next(new ErrorHandler("No student found with this email address", 404));
     const internship = await internshipModel.findById(req.params.internshipid);
+    const alreadyApplied = student.internships.includes(internship._id);
+    if (alreadyApplied) {
+        return next(new ErrorHandler("You have already applied for this internship", 400));
+    }
     student.internships.push(internship._id);
     internship.student.push(student._id);
     await student.save();
