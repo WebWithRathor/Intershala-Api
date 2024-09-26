@@ -1,8 +1,15 @@
 require('dotenv').config({path:'./.env'})
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const expressSession = require('express-session');
 const cookieParser = require('cookie-parser');
+
+// Cors config
+app.use(cors({
+    origin: true,  // Dynamically allow all origins
+    credentials: true  // Allow credentials (cookies, auth headers, etc.)
+}));
 
 // database configuration
 require('./models/DataBase.js').ConnectDatabase();
