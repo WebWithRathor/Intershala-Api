@@ -46,6 +46,10 @@ const ErrorHandler = require('./utils/ErrorHandler.js');
 const { Generatederror } = require('./middlewares/GeneratedErrors.js');
 
 app.all('*',(req,res,next)=>{
+    res.header("Access-Control-Allow-Origin", "https://www.google.com/");
+     res.header("Access-Control-Allow-Headers",
+       "Origin, X-Requested-With, Content-Type, Accept");
+     res.header('Access-Control-Allow-Headers', 'Content-Type');
     next(new ErrorHandler(`Requested ${req.url} Not Found`,404))
 })
 app.use(Generatederror);
